@@ -3,818 +3,376 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Оценка поддержки — Мокка</title>
+<title>Бонус за отзыв — Мокка</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Nunito:wght@700;800;900&display=swap');
-
-  :root {
-    --orange: #FF5A00;
-    --orange-dark: #E04D00;
-    --orange-light: #FFF0E8;
-    --yellow: #FFD600;
-    --yellow-dark: #E6C000;
-    --red: #E8001A;
-    --text: #1A1A1A;
-    --muted: #6B6B6B;
-    --border: #E8E8E8;
-    --bg: #F8F8F8;
-    --surface: #FFFFFF;
-    --radius: 16px;
-    --radius-sm: 10px;
+  :root{
+    --orange:#ff5a00;
+    --orange-dark:#e84f00;
+    --cream:#fff7f1;
+    --text:#171717;
+    --muted:#6f6f73;
+    --line:#ece8e4;
+    --white:#fff;
   }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    color:var(--text);
+    background:#fff;
+    -webkit-font-smoothing:antialiased;
   }
-
-  /* ── Hero ── */
-  /* FIX: убран декоративный ::before круг (визуальный шум, P4 style) */
-  .hero {
-    background: var(--orange);
-    padding: 32px 24px;
+  a{color:inherit}
+  .page{max-width:1120px;margin:0 auto;padding:0 28px}
+  header{
+    height:78px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
   }
-
-  .hero-inner {
-    max-width: 680px;
-    margin: 0 auto;
+  .logo{display:inline-flex;align-items:center;text-decoration:none}
+  .logo img{height:44px;width:auto;display:block}
+  .hero{
+    margin-top:18px;
+    border-radius:30px;
+    background:var(--cream);
+    overflow:hidden;
+    position:relative;
+    padding:64px 70px 68px;
   }
-
-  .hero h1 {
-    font-family: 'Nunito', sans-serif;
-    font-weight: 900;
-    font-size: 30px;
-    color: #fff;
-    text-transform: uppercase;
-    line-height: 1.1;
-    margin-bottom: 10px;
+  .hero:after{
+    content:"";
+    position:absolute;
+    width:330px;height:330px;
+    border-radius:50%;
+    background:var(--orange);
+    right:-105px;top:-145px;
+    opacity:.95;
+    z-index:0;
   }
-
-  .hero p {
-    font-size: 14px;
-    color: rgba(255,255,255,0.92);
-    line-height: 1.55;
-    max-width: 500px;
+  .eyebrow{
+    position:relative;
+    z-index:1;
+    color:var(--orange);
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:.01em;
+    margin-bottom:18px;
   }
-
-  /* FIX: тикет обращения в hero (P5 content-priority) */
-  .hero-ticket {
-    display: inline-block;
-    margin-top: 12px;
-    background: rgba(255,255,255,0.2);
-    border: 1px solid rgba(255,255,255,0.4);
-    border-radius: 20px;
-    padding: 4px 12px;
-    font-size: 12px;
-    color: #fff;
-    font-weight: 500;
+  h1{
+    position:relative;
+    z-index:1;
+    font-size:52px;
+    line-height:1.02;
+    letter-spacing:-.045em;
+    margin:0;
+    max-width:720px;
+    font-weight:800;
   }
-
-  /* ── Main ── */
-  .main {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 24px 16px 80px;
+  .hero .accent{color:var(--orange)}
+  .hero-sub{
+    position:relative;
+    z-index:1;
+    font-size:20px;
+    line-height:1.45;
+    max-width:650px;
+    margin:22px 0 30px;
+    color:#333;
   }
-
-  /* FIX: error summary (P8 error-summary) */
-  .error-summary {
-    display: none;
-    background: #FFF0F0;
-    border: 1.5px solid var(--red);
-    border-radius: var(--radius-sm);
-    padding: 14px 16px;
-    margin-bottom: 16px;
-    font-size: 13px;
-    color: var(--red);
-    line-height: 1.5;
+  .bonus{
+    position:relative;
+    z-index:1;
+    display:inline-flex;
+    align-items:baseline;
+    gap:9px;
+    margin:0 0 30px;
+    font-weight:800;
   }
-  .error-summary strong { display: block; margin-bottom: 2px; font-weight: 600; }
-  .error-summary.visible { display: block; }
-
-  /* ── Card ── */
-  .card {
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: 22px;
-    margin-bottom: 14px;
-    transition: border-color 0.2s;
+  .bonus-num{
+    font-size:44px;
+    line-height:1;
+    color:var(--orange);
+    letter-spacing:-.04em;
   }
-
-  .card.has-error { border-color: var(--red); }
-
-  .card-title {
-    font-family: 'Nunito', sans-serif;
-    font-weight: 800;
-    font-size: 16px;
-    color: var(--text);
-    margin-bottom: 3px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  .bonus-label{font-size:19px}
+  .btn{
+    position:relative;
+    z-index:1;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:52px;
+    padding:0 25px;
+    border-radius:14px;
+    background:var(--orange);
+    color:#fff;
+    text-decoration:none;
+    font-weight:750;
+    transition:.18s ease;
   }
-
-  /* FIX: SVG-иконки вместо emoji (P4 no-emoji-icons) */
-  .card-icon {
-    width: 28px;
-    height: 28px;
-    background: var(--orange-light);
-    border-radius: 8px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+  .btn:hover{background:var(--orange-dark);transform:translateY(-1px)}
+  .intro{
+    padding:66px 0 18px;
+    max-width:820px;
   }
-  .card-icon svg {
-    width: 15px;
-    height: 15px;
-    stroke: var(--orange);
-    fill: none;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+  .section-title{
+    font-size:34px;
+    line-height:1.1;
+    letter-spacing:-.03em;
+    margin:0 0 16px;
   }
-
-  .req { color: var(--orange); }
-
-  .card-desc {
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 18px;
-    line-height: 1.5;
-    margin-left: 36px;
+  .lead{
+    color:var(--muted);
+    font-size:18px;
+    line-height:1.55;
+    margin:0;
   }
-
-  /* ── Rating row ── */
-  .rating-row { margin-bottom: 14px; }
-  .rating-row:last-of-type { margin-bottom: 0; }
-
-  .rating-label {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  .steps{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:14px;
+    margin:30px 0 75px;
   }
-
-  .val-badge {
-    background: var(--orange);
-    color: #fff;
-    font-size: 11px;
-    font-weight: 700;
-    border-radius: 20px;
-    padding: 2px 8px;
-    opacity: 0;
-    transition: opacity 0.2s;
-    font-family: 'Nunito', sans-serif;
-    white-space: nowrap;
+  .step{
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:23px 19px 22px;
+    min-height:235px;
+    background:#fff;
   }
-  .val-badge.visible { opacity: 1; }
-
-  /* ── Scale ── */
-  .scale-wrap {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: 8px;
+  .step-no{
+    width:38px;height:38px;
+    border-radius:50%;
+    background:var(--orange);
+    color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;
+    margin-bottom:22px;
   }
-
-  .scale-hint {
-    font-size: 11px;
-    color: var(--muted);
-    white-space: nowrap;
+  .step h3{font-size:18px;line-height:1.2;margin:0 0 10px}
+  .step p{font-size:14px;line-height:1.5;color:var(--muted);margin:0}
+  .step a{color:var(--orange);text-decoration:none}
+  .requirements{
+    background:#f7f7f7;
+    border-radius:30px;
+    padding:55px 60px 60px;
+    margin-bottom:55px;
   }
-
-  /* FIX: 5 колонок (2 ряда по 5) вместо 1 ряда из 10 (P2 touch-target-size) */
-  .scale-btns {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 4px;
+  .requirements-head{
+    display:flex;
+    gap:28px;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:30px;
   }
-
-  /* FIX: высота 44px вместо 38px (P2 touch-target-size) */
-  .scale-btn {
-    height: 44px;
-    min-width: 0;
-    width: 100%;
-    border: 2px solid var(--border);
-    border-radius: 8px;
-    background: var(--surface);
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.13s;
-    font-family: 'Nunito', sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .requirements-head p{
+    max-width:440px;
+    color:var(--muted);
+    line-height:1.5;
+    margin:0;
   }
-
-  .scale-btn:hover {
-    border-color: var(--orange);
-    color: var(--orange);
-    background: var(--orange-light);
+  .rules{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
   }
-
-  .scale-btn.active {
-    background: var(--orange);
-    border-color: var(--orange);
-    color: #fff;
-    transform: scale(1.07);
-    box-shadow: 0 3px 10px rgba(255,90,0,0.28);
+  .rule{
+    background:#fff;
+    border-radius:18px;
+    padding:22px 22px 21px;
+    display:flex;
+    gap:15px;
+    align-items:flex-start;
   }
-
-  /* FIX: видимый focus-ring для клавиатурной навигации (P1 focus-states) */
-  .scale-btn:focus-visible {
-    outline: 3px solid var(--orange);
-    outline-offset: 2px;
+  .check{
+    flex:0 0 28px;
+    width:28px;height:28px;
+    border-radius:9px;
+    background:var(--orange);
+    color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:15px;font-weight:900;
   }
-
-  .divider {
-    border: none;
-    border-top: 1px dashed var(--border);
-    margin: 14px 0;
+  .rule strong{display:block;font-size:16px;line-height:1.3;margin-bottom:5px}
+  .rule span{display:block;color:var(--muted);font-size:14px;line-height:1.45}
+  .note{
+    margin-top:18px;
+    font-size:13px;
+    line-height:1.5;
+    color:var(--muted);
   }
-
-  .importance-desc {
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 8px;
-    line-height: 1.45;
+  .cta{
+    border-radius:26px;
+    background:var(--orange);
+    color:#fff;
+    padding:45px 52px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:30px;
+    margin-bottom:55px;
   }
-
-  .error-msg {
-    font-size: 12px;
-    color: var(--red);
-    margin-top: 8px;
-    font-weight: 500;
-    display: none;
+  .cta h2{margin:0 0 8px;font-size:30px;letter-spacing:-.03em}
+  .cta p{margin:0;color:rgba(255,255,255,.88);line-height:1.5}
+  .btn-light{background:#fff;color:var(--orange)}
+  .btn-light:hover{background:#fff;color:var(--orange-dark)}
+  footer{
+    border-top:1px solid var(--line);
+    padding:25px 0 45px;
+    color:#8a8a8f;
+    font-size:12px;
+    line-height:1.55;
   }
-  .card.has-error .error-msg { display: block; }
-
-  /* ── Selfservice conditional explain ── */
-  .selfservice-explain {
-    overflow: hidden;
-    max-height: 0;
-    opacity: 0;
-    transition: max-height 0.3s ease, opacity 0.25s ease, margin-top 0.3s ease;
-    margin-top: 0;
+  @media (max-width:900px){
+    .hero{padding:50px 42px}
+    h1{font-size:43px}
+    .steps{grid-template-columns:repeat(2,1fr)}
+    .step:last-child{grid-column:1/-1}
+    .requirements{padding:42px 35px}
   }
-  .selfservice-explain.visible {
-    max-height: 160px;
-    opacity: 1;
-    margin-top: 12px;
+  @media (max-width:620px){
+    .page{padding:0 16px}
+    header{height:68px}
+    .hero{margin-top:10px;padding:38px 24px 42px;border-radius:23px}
+    .hero:after{width:190px;height:190px;right:-80px;top:-80px}
+    h1{font-size:36px}
+    .hero-sub{font-size:17px}
+    .bonus-num{font-size:38px}
+    .steps{grid-template-columns:1fr;margin-bottom:55px}
+    .step:last-child{grid-column:auto}
+    .intro{padding-top:48px}
+    .section-title{font-size:29px}
+    .requirements{padding:35px 20px;border-radius:23px}
+    .requirements-head{display:block}
+    .requirements-head p{margin-top:12px}
+    .rules{grid-template-columns:1fr}
+    .cta{display:block;padding:34px 25px;border-radius:22px}
+    .cta .btn{margin-top:22px;width:100%}
   }
-  .selfservice-explain-label {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 8px;
-  }
-  .selfservice-explain textarea {
-    min-height: 72px;
-    font-size: 13px;
-  }
-
-  /* ── Comment ── */
-  .comment-card {
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: 22px;
-    margin-bottom: 22px;
-  }
-
-  .comment-title {
-    font-family: 'Nunito', sans-serif;
-    font-weight: 800;
-    font-size: 16px;
-    margin-bottom: 3px;
-  }
-
-  .comment-hint {
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 12px;
-  }
-
-  textarea {
-    width: 100%;
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 12px 14px;
-    font-size: 14px;
-    font-family: 'Inter', sans-serif;
-    color: var(--text);
-    resize: vertical;
-    min-height: 88px;
-    outline: none;
-    transition: border-color 0.2s;
-    background: var(--bg);
-  }
-  textarea:focus { border-color: var(--orange); background: #fff; }
-
-  /* ── Submit ── */
-  /* FIX: оранжевый вместо жёлтого (P4 primary-action — жёлтый ≠ CTA в UI-традиции) */
-  .submit-btn {
-    width: 100%;
-    padding: 17px;
-    background: var(--orange);
-    color: #fff;
-    border: none;
-    border-radius: 100px;
-    font-family: 'Nunito', sans-serif;
-    font-size: 15px;
-    font-weight: 900;
-    cursor: pointer;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    transition: background 0.2s, transform 0.1s;
-  }
-  .submit-btn:hover { background: var(--orange-dark); }
-  .submit-btn:active { transform: scale(0.99); }
-  .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-  /* FIX: focus-ring для клавиатуры (P1 focus-states) */
-  .submit-btn:focus-visible { outline: 3px solid var(--orange-dark); outline-offset: 3px; }
-
-  /* ── Sending state ── */
-  .sending-overlay {
-    display: none;
-    text-align: center;
-    padding: 32px;
-    color: var(--muted);
-    font-size: 14px;
-  }
-  .sending-overlay.visible { display: block; }
-  .spinner {
-    width: 36px; height: 36px;
-    border: 3px solid var(--border);
-    border-top-color: var(--orange);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto 12px;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* ── Thank you ── */
-  .thankyou {
-    display: none;
-    max-width: 480px;
-    margin: 60px auto;
-    text-align: center;
-    padding: 0 16px;
-  }
-  .thankyou.visible { display: block; }
-  .form-wrap.hidden { display: none; }
-
-  .ty-icon {
-    width: 72px; height: 72px;
-    background: var(--orange);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 22px;
-    font-size: 32px;
-  }
-
-  .thankyou h2 {
-    font-family: 'Nunito', sans-serif;
-    font-weight: 900;
-    font-size: 26px;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-
-  .thankyou p {
-    font-size: 14px;
-    color: var(--muted);
-    line-height: 1.6;
-    margin-bottom: 24px;
-  }
-
-  .ty-id-badge {
-    display: inline-block;
-    background: var(--orange-light);
-    border: 1.5px solid var(--orange);
-    border-radius: 20px;
-    padding: 8px 18px;
-    font-size: 12px;
-    color: var(--orange-dark);
-    font-weight: 600;
-    font-family: 'Inter', monospace;
-  }
-
-  /* ── Error banner ── */
-  .send-error {
-    display: none;
-    background: #FFF0F0;
-    border: 1.5px solid var(--red);
-    border-radius: var(--radius-sm);
-    padding: 12px 16px;
-    font-size: 13px;
-    color: var(--red);
-    margin-bottom: 14px;
-    line-height: 1.5;
-  }
-  .send-error.visible { display: block; }
 </style>
 </head>
 <body>
+  <div class="page">
+    <header>
+      <a class="logo" href="https://mokka.ru/" aria-label="Мокка">
+        <img src="data:image/png;base64,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" alt="Мокка — аванс на твой вкус" style="height:44px;width:auto;display:block">
+      </a>
+      <a href="https://mokka.ru/" style="font-size:14px;text-decoration:none;color:#555">mokka.ru ↗</a>
+    </header>
 
-<!-- Hero -->
-<div class="hero">
-  <div class="hero-inner">
-    <h1>Оцени нашу поддержку!</h1>
-    <p>Недавно ты обращался в службу поддержки. Помоги нам стать лучше — заполни короткий опрос, это займёт не больше 5 минут.</p>
-    <!-- FIX: показываем номер обращения если есть в URL (P5 content-priority) -->
-    <div class="hero-ticket" id="heroTicket" style="display:none"></div>
+    <main>
+      <section class="hero">
+        <div class="eyebrow">НАРОДНЫЙ РЕЙТИНГ</div>
+        <h1>Бонус за отзыв<br>в Народном рейтинге<br><span class="accent">от Мокка</span></h1>
+        <p class="hero-sub">Получите бонус за подробный отзыв о Мокка, который будет зачтён в Народный рейтинг на Банки.ру.</p>
+        <div class="bonus"><span class="bonus-num">до 500</span><span class="bonus-label">рублей кэшбека</span></div>
+        <br>
+        <a class="btn" href="https://www.banki.ru/microloans/responses/companies/revotekhnologii/" target="_blank" rel="noopener">Написать отзыв</a>
+      </section>
+
+      <section class="intro">
+        <h2 class="section-title">Как получить бонус?</h2>
+        <p class="lead">Оставьте подробный отзыв о Мокка, дождитесь модерации и зачёта отзыва в Народном рейтинге. После этого напишите нам — бонусы будут начислены в счёт ближайшего платежа по вашему графику.</p>
+      </section>
+
+      <section class="steps" aria-label="Шаги получения бонуса">
+        <article class="step">
+          <div class="step-no">1</div>
+          <h3>Войдите в личный кабинет</h3>
+          <p>Перейдите на страницу Мокка на Банки.ру и нажмите «Написать отзыв».</p>
+          <p style="margin-top:10px"><a href="https://www.banki.ru/microloans/responses/companies/revotekhnologii/" target="_blank" rel="noopener">Открыть страницу ↗</a></p>
+        </article>
+        <article class="step">
+          <div class="step-no">2</div>
+          <h3>Оставьте отзыв</h3>
+          <p>Опишите свой личный опыт взаимодействия с Мокка и следуйте правилам написания отзывов.</p>
+        </article>
+        <article class="step">
+          <div class="step-no">3</div>
+          <h3>Пройдите модерацию</h3>
+          <p>Отзыв должен соответствовать правилам Банки.ру и получить статус, при котором он засчитан в Народный рейтинг.</p>
+        </article>
+        <article class="step">
+          <div class="step-no">4</div>
+          <h3>Напишите нам</h3>
+          <p>После зачёта отзыва отправьте письмо на <strong>cashback@mokka.ru</strong>.</p>
+        </article>
+        <article class="step">
+          <div class="step-no">5</div>
+          <h3>Получите кэшбек</h3>
+          <p>Бонусы будут направлены в счёт оплаты ближайшего платежа по вашему графику.</p>
+        </article>
+      </section>
+
+      <section class="requirements">
+        <div class="requirements-head">
+          <div>
+            <h2 class="section-title">Что обязательно должно быть в отзыве?</h2>
+          </div>
+          <p>Чтобы отзыв прошёл модерацию и был зачтён в Народном рейтинге, важно описать реальный личный опыт и конкретную ситуацию.</p>
+        </div>
+
+        <div class="rules">
+          <div class="rule">
+            <div class="check">✓</div>
+            <div>
+              <strong>Подробная ситуация</strong>
+              <span>Опишите, что произошло, как вы взаимодействовали с Мокка и чем закончилась ситуация.</span>
+            </div>
+          </div>
+          <div class="rule">
+            <div class="check">✓</div>
+            <div>
+              <strong>Дата, время и канал</strong>
+              <span>Укажите дату и время описываемых событий и канал взаимодействия: приложение, сайт, чат, телефон и т. п.</span>
+            </div>
+          </div>
+          <div class="rule">
+            <div class="check">✓</div>
+            <div>
+              <strong>Личный опыт</strong>
+              <span>Отзыв должен описывать ситуацию, в которой вы участвовали или присутствовали лично.</span>
+            </div>
+          </div>
+          <div class="rule">
+            <div class="check">✓</div>
+            <div>
+              <strong>От 300 до 3 600 знаков</strong>
+              <span>Текст отзыва должен соответствовать установленному Банки.ру объёму.</span>
+            </div>
+          </div>
+          <div class="rule">
+            <div class="check">✓</div>
+            <div>
+              <strong>Оценка соответствует отзыву</strong>
+              <span>Для положительной обратной связи на Банки.ру используется оценка 4 или 5.</span>
+            </div>
+          </div>
+          <div class="rule">
+            <div class="check">✓</div>
+            <div>
+              <strong>Без копирования и ИИ</strong>
+              <span>Отзыв должен быть уникальным: не копируйте чужие тексты и не используйте текст, сгенерированный ИИ.</span>
+            </div>
+          </div>
+        </div>
+        <p class="note">Полные правила Народного рейтинга доступны на Банки.ру. Администрация Банки.ру самостоятельно проверяет отзывы и принимает решение о зачёте оценки.</p>
+      </section>
+
+      <section class="cta">
+        <div>
+          <h2>Готовы поделиться опытом?</h2>
+          <p>Оставьте отзыв на Банки.ру и дождитесь его зачёта в Народном рейтинге.</p>
+        </div>
+        <a class="btn btn-light" href="https://www.banki.ru/microloans/responses/companies/revotekhnologii/" target="_blank" rel="noopener">Написать отзыв</a>
+      </section>
+    </main>
+
+    <footer>
+      <div>Мокка · Информация об акции и порядке получения бонуса.</div>
+      <div style="margin-top:6px">Правила Народного рейтинга: <a href="https://www-2.banki.ru/microloans/responses/rules/" target="_blank" rel="noopener">Банки.ру ↗</a></div>
+    </footer>
   </div>
-</div>
-
-<div class="main">
-  <div class="form-wrap" id="formWrap">
-    <!-- FIX: error summary с подсчётом (P8 error-summary) -->
-    <div class="error-summary" id="errorSummary" role="alert"></div>
-    <div class="send-error" id="sendError" role="alert"></div>
-    <form id="surveyForm" novalidate>
-
-      <!-- Трудоёмкость -->
-      <div class="card" id="card_effort">
-        <div class="card-title">
-          <!-- FIX: SVG вместо emoji 🎯 (P4 no-emoji-icons) -->
-          <span class="card-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-          </span>
-          Трудоёмкость процесса <span class="req">*</span>
-        </div>
-        <div class="card-desc">Легко ли было получить то, зачем ты обратился в поддержку?</div>
-        <div class="rating-row">
-          <div class="rating-label">Оценка <span class="val-badge" id="val_effort_score"></span></div>
-          <div class="scale-wrap">
-            <span class="scale-hint">Сложно</span>
-            <!-- FIX: role=group + aria-label (P1 aria-labels) -->
-            <div class="scale-btns" id="btns_effort_score" role="group" aria-label="Оценка — трудоёмкость процесса"></div>
-            <span class="scale-hint">Легко</span>
-          </div>
-        </div>
-        <hr class="divider">
-        <div class="rating-row">
-          <div class="rating-label">Важность <span class="val-badge" id="val_effort_importance"></span></div>
-          <div class="importance-desc">Насколько важно для тебя решение вопроса в одно действие?</div>
-          <div class="scale-wrap">
-            <span class="scale-hint">Неважно</span>
-            <div class="scale-btns" id="btns_effort_importance" role="group" aria-label="Важность — трудоёмкость процесса"></div>
-            <span class="scale-hint">Важно</span>
-          </div>
-        </div>
-        <!-- FIX: role=alert чтобы скринридер объявил ошибку (P1 aria-live-errors) -->
-        <div class="error-msg" role="alert">Пожалуйста, заполни обе шкалы.</div>
-      </div>
-
-      <!-- Скорость -->
-      <div class="card" id="card_speed">
-        <div class="card-title">
-          <!-- FIX: SVG вместо emoji ⚡ -->
-          <span class="card-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          </span>
-          Скорость ответа <span class="req">*</span>
-        </div>
-        <div class="card-desc">Как быстро отвечали сотрудники службы поддержки?</div>
-        <div class="rating-row">
-          <div class="rating-label">Оценка <span class="val-badge" id="val_speed_score"></span></div>
-          <div class="scale-wrap">
-            <span class="scale-hint">Медленно</span>
-            <div class="scale-btns" id="btns_speed_score" role="group" aria-label="Оценка — скорость ответа"></div>
-            <span class="scale-hint">Быстро</span>
-          </div>
-        </div>
-        <hr class="divider">
-        <div class="rating-row">
-          <div class="rating-label">Важность <span class="val-badge" id="val_speed_importance"></span></div>
-          <div class="importance-desc">Насколько важна для тебя скорость реакции поддержки?</div>
-          <div class="scale-wrap">
-            <span class="scale-hint">Неважно</span>
-            <div class="scale-btns" id="btns_speed_importance" role="group" aria-label="Важность — скорость ответа"></div>
-            <span class="scale-hint">Важно</span>
-          </div>
-        </div>
-        <div class="error-msg" role="alert">Пожалуйста, заполни обе шкалы.</div>
-      </div>
-
-      <!-- Интерфейс -->
-      <div class="card" id="card_ui">
-        <div class="card-title">
-          <!-- FIX: SVG вместо emoji 📱 -->
-          <span class="card-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-          </span>
-          Интерфейс продукта <span class="req">*</span>
-        </div>
-        <div class="card-desc">Удобно ли пользоваться интерфейсом в контексте твоего обращения?</div>
-        <div class="rating-row">
-          <div class="rating-label">Оценка <span class="val-badge" id="val_ui_score"></span></div>
-          <div class="scale-wrap">
-            <span class="scale-hint">Неудобно</span>
-            <div class="scale-btns" id="btns_ui_score" role="group" aria-label="Оценка — интерфейс продукта"></div>
-            <span class="scale-hint">Удобно</span>
-          </div>
-        </div>
-        <hr class="divider">
-        <div class="rating-row">
-          <div class="rating-label">Важность <span class="val-badge" id="val_ui_importance"></span></div>
-          <div class="importance-desc">Насколько важно для тебя удобство интерфейса?</div>
-          <div class="scale-wrap">
-            <span class="scale-hint">Неважно</span>
-            <div class="scale-btns" id="btns_ui_importance" role="group" aria-label="Важность — интерфейс продукта"></div>
-            <span class="scale-hint">Важно</span>
-          </div>
-        </div>
-        <div class="error-msg" role="alert">Пожалуйста, заполни обе шкалы.</div>
-      </div>
-
-      <!-- Тон -->
-      <div class="card" id="card_tone">
-        <div class="card-title">
-          <!-- FIX: SVG вместо emoji 💬 -->
-          <span class="card-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          </span>
-          Тон общения <span class="req">*</span>
-        </div>
-        <div class="card-desc">Понравился ли тебе стиль и тон общения сотрудников?</div>
-        <div class="rating-row">
-          <div class="rating-label">Оценка <span class="val-badge" id="val_tone_score"></span></div>
-          <div class="scale-wrap">
-            <span class="scale-hint">Плохо</span>
-            <div class="scale-btns" id="btns_tone_score" role="group" aria-label="Оценка — тон общения"></div>
-            <span class="scale-hint">Отлично</span>
-          </div>
-        </div>
-        <hr class="divider">
-        <div class="rating-row">
-          <div class="rating-label">Важность <span class="val-badge" id="val_tone_importance"></span></div>
-          <div class="importance-desc">Насколько важен для тебя тон общения поддержки?</div>
-          <div class="scale-wrap">
-            <span class="scale-hint">Неважно</span>
-            <div class="scale-btns" id="btns_tone_importance" role="group" aria-label="Важность — тон общения"></div>
-            <span class="scale-hint">Важно</span>
-          </div>
-        </div>
-        <div class="error-msg" role="alert">Пожалуйста, заполни обе шкалы.</div>
-      </div>
-
-      <!-- Сроки -->
-      <div class="card" id="card_resolution">
-        <div class="card-title">
-          <!-- FIX: SVG вместо emoji 📅 -->
-          <span class="card-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          </span>
-          Сроки решения <span class="req">*</span>
-        </div>
-        <div class="card-desc">Комфортен ли срок, за который был решён твой вопрос?</div>
-        <div class="rating-row">
-          <div class="rating-label">Оценка <span class="val-badge" id="val_resolution_score"></span></div>
-          <div class="scale-wrap">
-            <span class="scale-hint">Долго</span>
-            <div class="scale-btns" id="btns_resolution_score" role="group" aria-label="Оценка — сроки решения"></div>
-            <span class="scale-hint">Быстро</span>
-          </div>
-        </div>
-        <hr class="divider">
-        <div class="rating-row">
-          <div class="rating-label">Важность <span class="val-badge" id="val_resolution_importance"></span></div>
-          <div class="importance-desc">Насколько важна для тебя длительность решения вопроса?</div>
-          <div class="scale-wrap">
-            <span class="scale-hint">Неважно</span>
-            <div class="scale-btns" id="btns_resolution_importance" role="group" aria-label="Важность — сроки решения"></div>
-            <span class="scale-hint">Важно</span>
-          </div>
-        </div>
-        <div class="error-msg" role="alert">Пожалуйста, заполни обе шкалы.</div>
-      </div>
-
-      <!-- Самообслуживание -->
-      <div class="card" id="card_selfservice">
-        <div class="card-title">
-          <!-- FIX: SVG вместо emoji 🔧 -->
-          <span class="card-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-          </span>
-          Самообслуживание <span class="req">*</span>
-        </div>
-        <div class="card-desc">Позволяет ли продукт решить вопрос самостоятельно, без обращения в поддержку?</div>
-        <div class="rating-row">
-          <div class="rating-label">Оценка <span class="val-badge" id="val_selfservice_score"></span></div>
-          <div class="scale-wrap">
-            <span class="scale-hint">Нет</span>
-            <div class="scale-btns" id="btns_selfservice_score" role="group" aria-label="Оценка — самообслуживание"></div>
-            <span class="scale-hint">Да</span>
-          </div>
-        </div>
-        <hr class="divider">
-        <div class="rating-row">
-          <div class="rating-label">Важность <span class="val-badge" id="val_selfservice_importance"></span></div>
-          <div class="importance-desc">Насколько важна для тебя возможность решить вопрос самостоятельно?</div>
-          <div class="scale-wrap">
-            <span class="scale-hint">Неважно</span>
-            <div class="scale-btns" id="btns_selfservice_importance" role="group" aria-label="Важность — самообслуживание"></div>
-            <span class="scale-hint">Важно</span>
-          </div>
-        </div>
-        <div class="error-msg" role="alert">Пожалуйста, заполни обе шкалы.</div>
-        <div class="selfservice-explain" id="selfserviceExplain">
-          <div class="selfservice-explain-label">Что помешало решить вопрос самостоятельно?</div>
-          <textarea id="selfserviceComment" placeholder="Опиши, что пошло не так..." aria-label="Что помешало решить вопрос самостоятельно (необязательно)"></textarea>
-        </div>
-      </div>
-
-      <!-- Комментарий -->
-      <div class="comment-card">
-        <div class="comment-title">Комментарий</div>
-        <div class="comment-hint">Необязательно — поделись любыми мыслями о продукте или поддержке.</div>
-        <textarea id="commentField" placeholder="Твой отзыв..." aria-label="Комментарий (необязательно)"></textarea>
-      </div>
-
-      <button type="submit" class="submit-btn" id="submitBtn">Отправить оценку</button>
-    </form>
-
-    <div class="sending-overlay" id="sendingOverlay">
-      <div class="spinner"></div>
-      Отправляем твой ответ...
-    </div>
-  </div>
-
-  <!-- Thank you -->
-  <div class="thankyou" id="thankyou">
-    <div class="ty-icon">🧡</div>
-    <h2>Спасибо!</h2>
-    <p>Твои оценки сохранены и помогут нам стать лучше. Мы ценим каждый отзыв!</p>
-    <div class="ty-id-badge" id="responseIdDisplay"></div>
-  </div>
-</div>
-
-<script>
-const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycby4MgFh7ngXTkqXRJg2seghNTONguGT7uLi34WlRTcTPggqc2DA08y8WVvnJqqmSud3/exec';
-const SOURCE = 'banki-ru';
-const CRITERIA = ['effort','speed','ui','tone','resolution','selfservice'];
-const TYPES = ['score','importance'];
-const MAX = 5;
-const ratings = {};
-CRITERIA.forEach(c => TYPES.forEach(t => ratings[`${c}_${t}`] = null));
-
-// Survey ID from URL
-const surveyId = new URLSearchParams(window.location.search).get('surveyId')
-  || new URLSearchParams(window.location.search).get('id')
-  || 'NO-ID';
-
-// FIX: показать номер обращения в hero (P5 content-priority)
-if (surveyId !== 'NO-ID') {
-  const ticketEl = document.getElementById('heroTicket');
-  ticketEl.textContent = 'Обращение: ' + surveyId;
-  ticketEl.style.display = 'inline-block';
-}
-
-// FIX: aria-label и aria-pressed на каждую кнопку (P1 aria-labels)
-const CRITERIA_LABELS = {
-  effort: 'трудоёмкость процесса', speed: 'скорость ответа',
-  ui: 'интерфейс продукта', tone: 'тон общения',
-  resolution: 'сроки решения', selfservice: 'самообслуживание'
-};
-const TYPE_LABELS = { score: 'Оценка', importance: 'Важность' };
-
-// Build buttons (1–10, отображаются в 2 ряда по 5)
-CRITERIA.forEach(c => TYPES.forEach(t => {
-  const container = document.getElementById(`btns_${c}_${t}`);
-  for (let v = 1; v <= MAX; v++) {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'scale-btn';
-    btn.textContent = v;
-    btn.setAttribute('aria-label', `${v} из 5 — ${TYPE_LABELS[t]}, ${CRITERIA_LABELS[c]}`);
-    btn.setAttribute('aria-pressed', 'false');
-    btn.addEventListener('click', () => {
-      ratings[`${c}_${t}`] = v;
-      container.querySelectorAll('.scale-btn').forEach(b => {
-        b.classList.remove('active');
-        b.setAttribute('aria-pressed', 'false');
-      });
-      btn.classList.add('active');
-      btn.setAttribute('aria-pressed', 'true');
-      const badge = document.getElementById(`val_${c}_${t}`);
-      badge.textContent = `${v}/5`;
-      badge.classList.add('visible');
-      if (ratings[`${c}_score`] !== null && ratings[`${c}_importance`] !== null) {
-        document.getElementById(`card_${c}`).classList.remove('has-error');
-      }
-      // Показать поле объяснения если оценка самообслуживания <= 6
-      if (c === 'selfservice' && t === 'score') {
-        const explain = document.getElementById('selfserviceExplain');
-        if (v <= 3) {
-          explain.classList.add('visible');
-        } else {
-          explain.classList.remove('visible');
-          document.getElementById('selfserviceComment').value = '';
-        }
-      }
-      // FIX: обновить счётчик ошибок если summary уже показан (P8 error-summary)
-      refreshSummary();
-    });
-    container.appendChild(btn);
-  }
-}));
-
-// FIX: обновление счётчика без повторного показа (P8 error-summary)
-function refreshSummary() {
-  const el = document.getElementById('errorSummary');
-  if (!el.classList.contains('visible')) return;
-  const missing = CRITERIA.filter(c =>
-    ratings[`${c}_score`] === null || ratings[`${c}_importance`] === null
-  );
-  if (missing.length === 0) {
-    el.classList.remove('visible');
-  } else {
-    el.innerHTML = `<strong>Не заполнено ${missing.length} из ${CRITERIA.length} критериев</strong>Отметь оценку и важность для каждого выделенного поля.`;
-  }
-}
-
-// Validate
-function validate() {
-  let firstInvalid = null;
-  CRITERIA.forEach(c => {
-    if (ratings[`${c}_score`] === null || ratings[`${c}_importance`] === null) {
-      document.getElementById(`card_${c}`).classList.add('has-error');
-      if (!firstInvalid) firstInvalid = document.getElementById(`card_${c}`);
-    }
-  });
-  if (firstInvalid) {
-    // FIX: показать error summary (P8 error-summary)
-    const missing = CRITERIA.filter(c =>
-      ratings[`${c}_score`] === null || ratings[`${c}_importance`] === null
-    );
-    const el = document.getElementById('errorSummary');
-    el.innerHTML = `<strong>Не заполнено ${missing.length} из ${CRITERIA.length} критериев</strong>Отметь оценку и важность для каждого выделенного поля.`;
-    el.classList.add('visible');
-    // FIX: скролл + фокус на первую невалидную кнопку (P8 focus-management)
-    firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    setTimeout(() => {
-      const firstBtn = firstInvalid.querySelector('.scale-btn');
-      if (firstBtn) firstBtn.focus();
-    }, 400);
-    return false;
-  }
-  return true;
-}
-
-// Submit
-document.getElementById('surveyForm').addEventListener('submit', async e => {
-  e.preventDefault();
-  if (!validate()) return;
-
-  const responseId = 'mokka-' + Date.now() + '-' + Math.random().toString(36).slice(2,6).toUpperCase();
-  const payload = {
-    responseId,
-    surveyId,
-    source: SOURCE,
-    submittedAt: new Date().toISOString(),
-    ratings: { ...ratings },
-    comment: document.getElementById('commentField').value.trim() || null,
-    selfserviceComment: document.getElementById('selfserviceComment').value.trim() || null
-  };
-
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  document.getElementById('sendingOverlay').classList.add('visible');
-  document.getElementById('surveyForm').style.display = 'none';
-  document.getElementById('sendError').classList.remove('visible');
-
-  try {
-    await fetch(WEBHOOK_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    document.getElementById('responseIdDisplay').textContent = 'ID ответа: ' + responseId;
-    document.getElementById('formWrap').classList.add('hidden');
-    document.getElementById('thankyou').classList.add('visible');
-  } catch (err) {
-    document.getElementById('sendingOverlay').classList.remove('visible');
-    document.getElementById('surveyForm').style.display = '';
-    btn.disabled = false;
-    const errEl = document.getElementById('sendError');
-    errEl.textContent = 'Не удалось отправить ответ. Проверь подключение к интернету и попробуй ещё раз.';
-    errEl.classList.add('visible');
-  }
-});
-</script>
 </body>
 </html>
